@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 // Components
-import { Link } from 'react-router-dom';
 import VideoComponent from '../Video/Video.component';
 
 // Styles
@@ -12,11 +12,11 @@ function ContentComponent({ videos }) {
   return (
     <ContentWrapper>
       {videos.map((item) => (
-        <Link to={`/${item.id.videoId}`} key={item.etag}>
+        <Link to={`/${item.id}`} key={item.id}>
           <VideoComponent
-            description={item.snippet.description}
-            title={item.snippet.title}
-            url={item.snippet.thumbnails.medium.url}
+            description={item.description}
+            title={item.title}
+            url={item.thumbnailUrl}
           />
         </Link>
       ))}
@@ -25,10 +25,14 @@ function ContentComponent({ videos }) {
 }
 
 ContentComponent.propTypes = {
-  videos: PropTypes.shape([]),
-};
-ContentComponent.defaultProps = {
-  videos: [],
+  videos: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      thumbnailUrl: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 };
 
 export default ContentComponent;

@@ -21,22 +21,22 @@ function VideoDetailPage() {
     <VideoDetailWrapper>
       {video.map((item) => (
         <VideoFullComponent
-          description={item.snippet.description}
+          description={item.description}
           error={error}
-          key={item.etag}
+          key={item.id}
           loading={loading}
-          title={item.snippet.title}
+          title={item.title}
           url={item.id}
         />
       ))}
       <RelatedList>
         {videos.map((item) => (
-          <Link to={`/${item.id.videoId}`} key={item.etag}>
+          <Link to={`/${item.id}`} key={item.id}>
             <VideoRelated
               error={errorRelated}
               loading={loadingRelated}
-              title={item.snippet.title}
-              url={item.snippet.thumbnails.default.url}
+              title={item.title}
+              url={item.thumbnailUrl}
             />
           </Link>
         ))}

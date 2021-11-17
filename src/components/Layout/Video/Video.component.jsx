@@ -15,8 +15,14 @@ const VideoComponent = ({ description, title, url }) => (
 );
 
 VideoComponent.propTypes = {
-  description: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
+  description: PropTypes.string,
+  title: PropTypes.string,
+  url: PropTypes.string,
+};
+
+VideoComponent.defaultProps = {
+  description: '',
+  title: '',
+  url: '',
 };
 export default VideoComponent;
