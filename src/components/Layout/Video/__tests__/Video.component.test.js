@@ -12,7 +12,7 @@ describe('Video Component', () => {
     });
     it('Should render the title', () => {
         const title='title of video'
-        render(<VideoComponent  />)
+        render(<VideoComponent title='title of video' />)
 
         expect(screen.getByText(title)).toBeInTheDocument()
     });
@@ -24,7 +24,7 @@ describe('Video Component', () => {
     });
     it('Should render the description', () => {
         const description='some text'
-        render(<VideoComponent />)
+        render(<VideoComponent description='some text' />)
 
         expect(screen.getByText(description)).toBeInTheDocument()
     });

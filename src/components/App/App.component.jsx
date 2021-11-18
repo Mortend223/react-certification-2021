@@ -8,6 +8,7 @@ import NotFound from '../../pages/NotFound';
 import SecretPage from '../../pages/Secret';
 import Private from '../Private';
 import Layout from '../Layout';
+import VideoDetailPage from '../../pages/VideoDetail/VideoDetail.page';
 import random from '../../utils/fns';
 
 function App() {
@@ -43,6 +44,9 @@ function App() {
             <Private exact path="/secret">
               <SecretPage />
             </Private>
+            <Route path="/:id">
+              <VideoDetailPage />
+            </Route>
             <Route path="*">
               <NotFound />
             </Route>
