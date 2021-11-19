@@ -11,6 +11,9 @@ import Layout from '../Layout';
 import VideoDetailPage from '../../pages/VideoDetail/VideoDetail.page';
 import random from '../../utils/fns';
 
+// Context
+import DataProvider from '../../context/data-context';
+
 function App() {
   useLayoutEffect(() => {
     const { body } = document;
@@ -33,25 +36,27 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Layout>
-          <Switch>
-            <Route exact path="/">
-              <HomePage />
-            </Route>
-            <Route exact path="/login">
-              <LoginPage />
-            </Route>
-            <Private exact path="/secret">
-              <SecretPage />
-            </Private>
-            <Route path="/:id">
-              <VideoDetailPage />
-            </Route>
-            <Route path="*">
-              <NotFound />
-            </Route>
-          </Switch>
-        </Layout>
+        <DataProvider>
+          <Layout>
+            <Switch>
+              <Route exact path="/">
+                <HomePage />
+              </Route>
+              <Route exact path="/login">
+                <LoginPage />
+              </Route>
+              <Private exact path="/secret">
+                <SecretPage />
+              </Private>
+              <Route path="/:id">
+                <VideoDetailPage />
+              </Route>
+              <Route path="*">
+                <NotFound />
+              </Route>
+            </Switch>
+          </Layout>
+        </DataProvider>
       </AuthProvider>
     </BrowserRouter>
   );
