@@ -1,9 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useDebouncedCallback } from 'use-debounce/lib';
+import React, { useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 
 // Styles
-import { faBars, faToggleOff } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBars,
+  faToggleOff,
+  faSearch as searchIcon,
+  faToggleOn,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   ButtonToggle,
@@ -11,23 +15,58 @@ import {
   Input,
   LogoLink,
   MenuToggle,
+  SearchBox,
 } from './Header.styles';
 import SessionOutLogo from '../../../resources/session_out.png';
 
-function HeaderComponent({ onChangeInput }) {
-  const onChangeDebounced = useDebouncedCallback(onChangeInput, 1000);
+// Context
+import { useData } from '../../../context/data-context';
+
+function HeaderComponent() {
+  const { push } = useHistory();
+  const location = useLocation();
+  const { isDark, onChangeInput } = useData();
+  const [searchTerm, setSearch] = useState('');
+
+  const handleChange = () => {
+    onChangeInput({ type: 'updateTheme' });
+  };
+
+  const handleSearchChanged = (event) => {
+    setSearch(event.target.value);
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      onChangeInput({ term: searchTerm, type: 'updateSearch' });
+
+      if (location.pathname !== '/') {
+        push('/');
+      }
+    }
+  };
 
   return (
-    <HeaderWrapper>
-      <Input
-        type="text"
-        name="search"
-        onChange={onChangeDebounced}
-        placeholder="Wizeline"
-      />
-      <ButtonToggle>
+    <HeaderWrapper isDark={isDark}>
+      <SearchBox>
+        <Input
+          type="text"
+          name="search"
+          value={searchTerm}
+          onChange={handleSearchChanged}
+          onKeyDown={handleKeyDown}
+          placeholder="Wizeline"
+        />
         <FontAwesomeIcon
-          icon={faToggleOff}
+          icon={searchIcon}
+          size="1x"
+          style={{ color: 'gray' }}
+          title="search-input"
+        />
+      </SearchBox>
+      <ButtonToggle onClick={handleChange} name="darkMode">
+        <FontAwesomeIcon
+          icon={isDark ? faToggleOff : faToggleOn}
           size="6x"
           style={{ color: 'white' }}
           title="toggle-button"
@@ -48,9 +87,5 @@ function HeaderComponent({ onChangeInput }) {
     </HeaderWrapper>
   );
 }
-
-HeaderComponent.propTypes = {
-  onChangeInput: PropTypes.func.isRequired,
-};
 
 export default HeaderComponent;

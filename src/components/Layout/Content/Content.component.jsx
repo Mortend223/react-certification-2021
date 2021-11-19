@@ -1,38 +1,46 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 // Components
 import VideoComponent from '../Video/Video.component';
 
+// Hooks
+import useVideos from '../../../hooks/useVideos';
+
 // Styles
 import ContentWrapper from './Content.styles';
+import { useData } from '../../../context/data-context';
 
-function ContentComponent({ videos }) {
+function ContentComponent() {
+  const { search } = useData();
+  const { videos, loading, error } = useVideos(search);
+
   return (
     <ContentWrapper>
-      {videos.map((item) => (
-        <Link to={`/${item.id}`} key={item.id}>
-          <VideoComponent
-            description={item.description}
-            title={item.title}
-            url={item.thumbnailUrl}
-          />
-        </Link>
-      ))}
+      {(!loading || !error) &&
+        videos.map((item) => (
+          <Link to={`/${item.id}`} key={item.id}>
+            <VideoComponent
+              description={item.description}
+              title={item.title}
+              url={item.thumbnailUrl}
+            />
+          </Link>
+        ))}
     </ContentWrapper>
   );
 }
 
-ContentComponent.propTypes = {
-  videos: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-      thumbnailUrl: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-};
+// ContentComponent.propTypes = {
+//   videos: PropTypes.arrayOf(
+//     PropTypes.shape({
+//       id: PropTypes.string.isRequired,
+//       title: PropTypes.string.isRequired,
+//       description: PropTypes.string.isRequired,
+//       thumbnailUrl: PropTypes.string.isRequired,
+//     })
+//   ).isRequired,
+// };
 
 export default ContentComponent;
