@@ -1,5 +1,4 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 // Components
@@ -10,7 +9,7 @@ import useVideos from '../../../hooks/useVideos';
 
 // Styles
 import ContentWrapper from './Content.styles';
-import { useData } from '../../../context/data-context';
+import { useData } from '../../../providers/DataGlobal/DataGlobal.provider';
 
 function ContentComponent() {
   const { search } = useData();
@@ -31,16 +30,5 @@ function ContentComponent() {
     </ContentWrapper>
   );
 }
-
-// ContentComponent.propTypes = {
-//   videos: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       id: PropTypes.string.isRequired,
-//       title: PropTypes.string.isRequired,
-//       description: PropTypes.string.isRequired,
-//       thumbnailUrl: PropTypes.string.isRequired,
-//     })
-//   ).isRequired,
-// };
 
 export default ContentComponent;

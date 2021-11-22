@@ -6,9 +6,9 @@ import { BrowserRouter } from 'react-router-dom';
 import ContentComponent from '../Content.component';
 
 // Context
-import { useData } from '../../../../context/data-context';
+import { useData } from '../../../../providers/DataGlobal/DataGlobal.provider';
 
-jest.mock('../../../../context/data-context');
+jest.mock('../../../../providers/DataGlobal/DataGlobal.provider');
 
 describe('Content Component', () => {
   it('Should show ContentComponent', () => {

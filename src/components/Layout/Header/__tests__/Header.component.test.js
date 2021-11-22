@@ -5,9 +5,9 @@ import { render, screen } from '@testing-library/react';
 import HeaderComponent from '../Header.component';
 
 // Context
-import { useData } from '../../../../context/data-context';
+import { useData } from '../../../../providers/DataGlobal/DataGlobal.provider';
 
-jest.mock('../../../../context/data-context');
+jest.mock('../../../../providers/DataGlobal/DataGlobal.provider');
 
 // Mocks
 const onSearchMock = jest.fn();

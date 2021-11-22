@@ -1,7 +1,8 @@
 import React, { useLayoutEffect } from 'react';
+import PropTypes from 'prop-types';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import AuthProvider from '../../providers/Auth';
+import { useAuth } from '../../providers/Auth';
 import HomePage from '../../pages/Home';
 import LoginPage from '../../pages/Login';
 import NotFound from '../../pages/NotFound';
@@ -11,8 +12,11 @@ import Layout from '../Layout';
 import VideoDetailPage from '../../pages/VideoDetail/VideoDetail.page';
 import random from '../../utils/fns';
 
-// Context
-import DataProvider from '../../context/data-context';
+// Components
+import Favorites from '../Layout/Favorites/Favorites.component';
+
+// Provider
+import DataProvider from '../../providers/DataGlobal/DataGlobal.provider';
 
 function App() {
   useLayoutEffect(() => {
@@ -33,33 +37,45 @@ function App() {
     };
   }, []);
 
+  // const ProtectedRoute = ({ component, path }) => {
+  //   const { authenticated } = useAuth();
+  //   return authenticated ? (
+  //     <Route path={path} exact>
+  //       {component}
+  //     </Route>
+  //   ) : null;
+  // };
+
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <DataProvider>
-          <Layout>
-            <Switch>
-              <Route exact path="/">
-                <HomePage />
-              </Route>
-              <Route exact path="/login">
-                <LoginPage />
-              </Route>
-              <Private exact path="/secret">
-                <SecretPage />
-              </Private>
-              <Route path="/:id">
-                <VideoDetailPage />
-              </Route>
-              <Route path="*">
-                <NotFound />
-              </Route>
-            </Switch>
-          </Layout>
-        </DataProvider>
-      </AuthProvider>
+      <DataProvider>
+        <Layout>
+          <Switch>
+            <Route exact path="/">
+              <HomePage />
+            </Route>
+            <Route exact path="/login">
+              <LoginPage />
+            </Route>
+            <Private exact path="/secret">
+              <SecretPage />
+            </Private>
+            {/* <ProtectedRoute component={Favorites} path="/favorites" exact /> */}
+            <Route path="/:id">
+              <VideoDetailPage />
+            </Route>
+            <Route path="*">
+              <NotFound />
+            </Route>
+          </Switch>
+        </Layout>
+      </DataProvider>
     </BrowserRouter>
   );
 }
+// ProtectedRoute.propTypes = {
+//   component: PropTypes.node.isRequired,
+//   path: PropTypes.string.isRequired,
+// };
 
 export default App;
