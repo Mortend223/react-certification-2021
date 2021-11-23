@@ -7,6 +7,7 @@ import {
   faToggleOff,
   faSearch as searchIcon,
   faToggleOn,
+  faUserSecret,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -17,20 +18,17 @@ import {
   MenuToggle,
   SearchBox,
 } from './Header.styles';
-import SessionOutLogo from '../../../resources/session_out.png';
 
-// Context
-import { useData } from '../../../context/data-context';
+// Providers
+import { useAuth } from '../../../providers/Auth/Auth.provider';
+import { useData } from '../../../providers/DataGlobal/DataGlobal.provider';
 
 function HeaderComponent() {
   const { push } = useHistory();
   const location = useLocation();
-  const { isDark, onChangeInput } = useData();
+  const { authenticated, logout, user } = useAuth();
+  const { isDark, onChangeInput, toggleModal, toggleTheme } = useData();
   const [searchTerm, setSearch] = useState('');
-
-  const handleChange = () => {
-    onChangeInput({ type: 'updateTheme' });
-  };
 
   const handleSearchChanged = (event) => {
     setSearch(event.target.value);
@@ -38,12 +36,19 @@ function HeaderComponent() {
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      onChangeInput({ term: searchTerm, type: 'updateSearch' });
+      onChangeInput(searchTerm);
 
       if (location.pathname !== '/') {
         push('/');
       }
     }
+  };
+
+  const deAuthenticate = (event) => {
+    event.preventDefault();
+    toggleTheme(true);
+    logout();
+    push('/');
   };
 
   return (
@@ -64,7 +69,7 @@ function HeaderComponent() {
           title="search-input"
         />
       </SearchBox>
-      <ButtonToggle onClick={handleChange} name="darkMode">
+      <ButtonToggle onClick={toggleTheme} name="darkMode">
         <FontAwesomeIcon
           icon={isDark ? faToggleOff : faToggleOn}
           size="6x"
@@ -72,9 +77,18 @@ function HeaderComponent() {
           title="toggle-button"
         />
       </ButtonToggle>
-      <p>Dark Mode</p>
-      <LogoLink href="#">
-        <img src={SessionOutLogo} alt="Logo" />
+      <p>{isDark ? 'Light Mode' : 'Dark Mode'}</p>
+      <LogoLink href="#" onClick={authenticated ? deAuthenticate : toggleModal}>
+        {authenticated ? (
+          <img src={user.avatarUrl} alt="Wizeline" />
+        ) : (
+          <FontAwesomeIcon
+            icon={faUserSecret}
+            size="2x"
+            style={{ color: 'white' }}
+            title="toggle-button"
+          />
+        )}
       </LogoLink>
       <MenuToggle href="#">
         <FontAwesomeIcon

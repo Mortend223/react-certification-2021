@@ -10,7 +10,6 @@ function useFetchData(url, params, parseResponse = defaultParseResponse) {
   const [response, setResponse] = useState(undefined);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
-
   const fetchData = useCallback(async () => {
     try {
       const result = await axios.get(API_URL, { params });
