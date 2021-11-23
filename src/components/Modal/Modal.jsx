@@ -1,13 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
-
-import { useHistory } from 'react-router';
 
 // Styles
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import { Background, CloseButton, ModalCard, ModalWrapper } from './Modal.styles';
+import {
+  Background,
+  Button,
+  CloseButton,
+  ErrorMessage,
+  ModalCard,
+  ModalWrapper,
+} from './Modal.styles';
 
 // Providers
 import { useAuth } from '../../providers/Auth';
@@ -28,14 +33,18 @@ const Portal = ({ children, el = 'div' }) => {
   return createPortal(children, container);
 };
 function Modal({ toggle, open }) {
-  const { login } = useAuth();
-  const history = useHistory();
+  const { login, loading, error } = useAuth();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-  const authenticate = (event) => {
-    event.preventDefault();
-    login();
-    history.push('/secret');
+  const handleLogin = async () => {
+    const user = await login(username, password);
+
+    if (user) {
+      toggle();
+    }
   };
+
   return (
     <Portal>
       {open && (
@@ -49,23 +58,52 @@ function Modal({ toggle, open }) {
                 title="close-button"
               />
             </CloseButton>
-            <section className="login">
+            <section>
               <h1>Welcome back!</h1>
-              <form onSubmit={authenticate} className="login-form">
-                <div className="form-group">
-                  <label htmlFor="username">
-                    <strong>username </strong>
-                    <input required type="text" id="username" />
-                  </label>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="password">
-                    <strong>password </strong>
-                    <input required type="password" id="password" />
-                  </label>
-                </div>
-                <button type="submit">login</button>
-              </form>
+              {error && (
+                <ErrorMessage>
+                  <FontAwesomeIcon
+                    icon={faTimesCircle}
+                    size="1x"
+                    style={{ color: 'red' }}
+                    title="error-message"
+                  />
+                  {error}
+                </ErrorMessage>
+              )}
+              <div>
+                <label htmlFor="username">
+                  <strong>username </strong>
+                  <input
+                    required
+                    type="text"
+                    id="username"
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                </label>
+              </div>
+              <div>
+                <label htmlFor="password">
+                  <strong>password </strong>
+                  <input
+                    required
+                    type="password"
+                    id="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </label>
+              </div>
+              <Button type="button" onClick={toggle} disabled={loading}>
+                Cancel
+              </Button>
+              <Button
+                type="button"
+                onClick={handleLogin}
+                color="primary"
+                disabled={loading}
+              >
+                {loading ? 'Login in...' : 'Login'}
+              </Button>
             </section>
           </ModalCard>
           <Background onClick={toggle} />
@@ -76,7 +114,6 @@ function Modal({ toggle, open }) {
 }
 export default Modal;
 Modal.propTypes = {
-  // children: PropTypes.arrayOf(PropTypes.object).isRequired,
   toggle: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
 };

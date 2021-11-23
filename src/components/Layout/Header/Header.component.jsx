@@ -8,7 +8,6 @@ import {
   faSearch as searchIcon,
   faToggleOn,
   faUserSecret,
-  faUserTie,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -27,8 +26,8 @@ import { useData } from '../../../providers/DataGlobal/DataGlobal.provider';
 function HeaderComponent() {
   const { push } = useHistory();
   const location = useLocation();
+  const { authenticated, logout, user } = useAuth();
   const { isDark, onChangeInput, toggleModal, toggleTheme } = useData();
-  const { authenticated, logout } = useAuth();
   const [searchTerm, setSearch] = useState('');
 
   const handleSearchChanged = (event) => {
@@ -47,6 +46,7 @@ function HeaderComponent() {
 
   const deAuthenticate = (event) => {
     event.preventDefault();
+    toggleTheme(true);
     logout();
     push('/');
   };
@@ -79,12 +79,16 @@ function HeaderComponent() {
       </ButtonToggle>
       <p>{isDark ? 'Light Mode' : 'Dark Mode'}</p>
       <LogoLink href="#" onClick={authenticated ? deAuthenticate : toggleModal}>
-        <FontAwesomeIcon
-          icon={authenticated ? faUserTie : faUserSecret}
-          size="2x"
-          style={{ color: 'white' }}
-          title="toggle-button"
-        />
+        {authenticated ? (
+          <img src={user.avatarUrl} alt="Wizeline" />
+        ) : (
+          <FontAwesomeIcon
+            icon={faUserSecret}
+            size="2x"
+            style={{ color: 'white' }}
+            title="toggle-button"
+          />
+        )}
       </LogoLink>
       <MenuToggle href="#">
         <FontAwesomeIcon

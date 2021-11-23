@@ -9,12 +9,12 @@ import App from './components/App';
 import './global.css';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <AuthProvider>
-      <UserProvider>
+  <AuthProvider>
+    <UserProvider>
+      <React.StrictMode>
         <App />
-      </UserProvider>
-    </AuthProvider>
-  </React.StrictMode>,
+      </React.StrictMode>
+    </UserProvider>
+  </AuthProvider>,
   document.getElementById('root')
 );

@@ -1,17 +1,36 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
+// Styles
+import { ContentWrapper, LinkWrapper } from '../Content/Content.styles';
+
+// Components
+import VideoComponent from '../Video/Video.component';
+
+// Providers
 import { useUserContext } from '../../../providers/DataUser/DataUser.provider';
 
-const Favorites = () => {
+function FavoritesComponent() {
   const { favoriteVideos } = useUserContext();
 
-  //   const getVideoPath = (video) => `/favorites/${video.id}`;
-
   if (favoriteVideos.length === 0) {
-    return <p>You haven&apos;t added any video to your favorites yet</p>;
+    return <p>Add some videos to favorites</p>;
   }
-  return <>Hi</>;
-  //   return <VideoCardList videos={favoriteVideos} getVideoPath={getVideoPath} />;
-};
+  return (
+    <ContentWrapper>
+      {favoriteVideos.map((item) => (
+        <LinkWrapper key={item.id}>
+          <Link to={`/favorites/${item.id}`}>
+            <VideoComponent
+              description={item.description}
+              title={item.title}
+              url={item.thumbnailUrl}
+            />
+          </Link>
+        </LinkWrapper>
+      ))}
+    </ContentWrapper>
+  );
+}
 
-export default Favorites;
+export default FavoritesComponent;

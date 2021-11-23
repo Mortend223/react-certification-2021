@@ -1,14 +1,10 @@
 import React, { createContext, useContext, useReducer } from 'react';
 import PropTypes from 'prop-types';
 
-export const themes = {
-  light: {
-    background: '#eeeeee',
-  },
-  dark: {
-    background: '#222222',
-  },
-};
+// Providers
+import { useAuth } from '../Auth/Auth.provider';
+import { useUserContext } from '../DataUser/DataUser.provider';
+
 const DataContext = createContext(null);
 
 function DataReducer(state, action) {
@@ -22,18 +18,6 @@ function DataReducer(state, action) {
     case 'updateTheme': {
       return { ...state, isDark: !state.isDark };
     }
-    case 'addFavoriteVideo':
-      return {
-        ...state,
-        favoriteVideos: [...state.favoriteVideos, action.payload.video],
-      };
-    case 'removeFavoriteVideo':
-      return {
-        ...state,
-        favoriteVideos: state.favoriteVideos.filter(
-          (video) => video.id !== action.payload.video.id
-        ),
-      };
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
@@ -41,10 +25,13 @@ function DataReducer(state, action) {
 }
 
 function DataProvider({ children }) {
+  const { authenticated } = useAuth();
+  const { isDarkTheme, setTheme } = useUserContext();
+  // console.log('isDarkTheme', isDarkTheme);
   const [state, dispatch] = useReducer(DataReducer, {
     favoriteVideos: [],
-    isDark: true,
-    isOpen: true,
+    isDark: authenticated ? isDarkTheme : true,
+    isOpen: false,
     search: 'Wizeline',
   });
 
@@ -55,19 +42,11 @@ function DataProvider({ children }) {
     dispatch({ type: 'toggleModal' });
   };
   const toggleTheme = () => {
+    // console.log('state.isDark', state.isDark);
+    if (authenticated) {
+      setTheme(state.isDark);
+    }
     dispatch({ type: 'updateTheme' });
-  };
-  const addFavoriteVideo = () => async (video) => {
-    dispatch({
-      type: 'addFavoriteVideo',
-      payload: { video },
-    });
-  };
-  const removeFavoriteVideo = () => async (video) => {
-    dispatch({
-      type: 'removeFavoriteVideo',
-      payload: { video },
-    });
   };
 
   return (
@@ -76,8 +55,6 @@ function DataProvider({ children }) {
         search: state.search,
         isDark: state.isDark,
         isOpen: state.isOpen,
-        addFavoriteVideo,
-        removeFavoriteVideo,
         onChangeInput,
         toggleModal,
         toggleTheme,

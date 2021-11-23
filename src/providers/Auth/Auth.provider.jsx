@@ -100,9 +100,9 @@ function useAuth() {
   return context;
 }
 
-// AuthProvider.propTypes = {
-//   children: PropTypes.func.isRequired,
-// };
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 export { useAuth };
 export default AuthProvider;

@@ -4,19 +4,19 @@ import PropTypes from 'prop-types';
 // Components
 import Modal from '../Modal/Modal';
 
-// Context
+// Providers
 import { useData } from '../../providers/DataGlobal/DataGlobal.provider';
 
-import './Layout.styles.css';
+import MainContainer from './Layout.styles';
 
 function Layout({ children }) {
-  const { isOpen, toggleModal } = useData();
+  const { isDark, isOpen, toggleModal } = useData();
 
   return (
-    <main className="container">
+    <MainContainer isDark={isDark}>
       {children}
       <Modal open={isOpen} toggle={toggleModal} />
-    </main>
+    </MainContainer>
   );
 }
 Layout.propTypes = {

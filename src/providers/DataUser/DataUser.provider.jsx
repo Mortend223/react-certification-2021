@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useEffect, useReducer } from 'react';
-
+import PropTypes from 'prop-types';
 import storage from '../../utils/storage';
 import { useAuth } from '../Auth';
 
 const UserContext = createContext(null);
-const UserStorageKey = 'USER-DATA';
+const UserStorageKey = 'REACT-CHALLENGE-USER-DATA';
 
 const initialState = {
   favoriteVideos: [],
@@ -24,6 +24,10 @@ function UserReducer(state, action) {
         ...state,
         favoriteVideos: [...state.favoriteVideos, payload.video],
       };
+    case 'isFavoriteVideo':
+      return state.favoriteVideos.find(
+        (favoriteVideo) => favoriteVideo.id === payload.video.id
+      );
     case 'removeFavoriteVideo':
       return {
         ...state,
@@ -41,27 +45,30 @@ function UserReducer(state, action) {
   }
 }
 
-function UserProvider() {
+function UserProvider({ children }) {
   const { user } = useAuth();
   const [state, dispatch] = useReducer(UserReducer, {
     ...initialState,
-    // ...(storage.get(getUserStorageKey(user))
-    //   ? JSON.parse(storage.get(getUserStorageKey(user)))
-    //   : {}),
+    ...(storage.get(getUserStorageKey(user))
+      ? JSON.parse(storage.get(getUserStorageKey(user)))
+      : {}),
   });
 
-  const isFavoriteVideo = (video) => {
-    return state.favoriteVideos.find((favoriteVideo) => favoriteVideo.id === video.id);
+  const isFavoriteVideo = () => (video) => {
+    dispatch({
+      type: 'isFavoriteVideo',
+      payload: { video },
+    });
   };
 
-  const addFavoriteVideo = () => async (video) => {
+  const addFavoriteVideo = () => (video) => {
     dispatch({
       type: 'addFavoriteVideo',
       payload: { video },
     });
   };
 
-  const removeFavoriteVideo = () => async (video) => {
+  const removeFavoriteVideo = () => (video) => {
     dispatch({
       type: 'removeFavoriteVideo',
       payload: { video },
@@ -96,7 +103,7 @@ function UserProvider() {
     );
   }, [state.favoriteVideos, user, state.isDarkTheme]);
 
-  return <UserContext.Provider value={value} />;
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }
 
 function useUserContext() {
@@ -106,6 +113,10 @@ function useUserContext() {
   }
   return context;
 }
+
+UserProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 export { useUserContext };
 export default UserProvider;
