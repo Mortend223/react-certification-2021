@@ -3,11 +3,12 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 // Styles
 import {
-  faBars,
-  faToggleOff,
   faSearch as searchIcon,
-  faToggleOn,
   faUserSecret,
+  faStar,
+  faHome,
+  faSun,
+  faMoon,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -71,13 +72,12 @@ function HeaderComponent() {
       </SearchBox>
       <ButtonToggle onClick={toggleTheme} name="darkMode">
         <FontAwesomeIcon
-          icon={isDark ? faToggleOff : faToggleOn}
+          icon={isDark ? faMoon : faSun}
           size="6x"
           style={{ color: 'white' }}
           title="toggle-button"
         />
       </ButtonToggle>
-      <p>{isDark ? 'Light Mode' : 'Dark Mode'}</p>
       <LogoLink href="#" onClick={authenticated ? deAuthenticate : toggleModal}>
         {authenticated ? (
           <img src={user.avatarUrl} alt="Wizeline" />
@@ -90,14 +90,25 @@ function HeaderComponent() {
           />
         )}
       </LogoLink>
-      <MenuToggle href="#">
-        <FontAwesomeIcon
-          icon={faBars}
-          size="6x"
-          style={{ color: 'white' }}
-          title="menu-toggle"
-        />
-      </MenuToggle>
+      {authenticated && location.pathname === '/' ? (
+        <MenuToggle href="/favorites">
+          <FontAwesomeIcon
+            icon={faStar}
+            size="2x"
+            style={{ color: 'yellow' }}
+            title="menu-favorites"
+          />
+        </MenuToggle>
+      ) : (
+        <MenuToggle href="/">
+          <FontAwesomeIcon
+            icon={faHome}
+            size="2x"
+            style={{ color: 'white' }}
+            title="menu-home"
+          />
+        </MenuToggle>
+      )}
     </HeaderWrapper>
   );
 }

@@ -27,7 +27,6 @@ function DataReducer(state, action) {
 function DataProvider({ children }) {
   const { authenticated } = useAuth();
   const { isDarkTheme, setTheme } = useUserContext();
-  // console.log('isDarkTheme', isDarkTheme);
   const [state, dispatch] = useReducer(DataReducer, {
     favoriteVideos: [],
     isDark: authenticated ? isDarkTheme : true,
@@ -42,7 +41,6 @@ function DataProvider({ children }) {
     dispatch({ type: 'toggleModal' });
   };
   const toggleTheme = () => {
-    // console.log('state.isDark', state.isDark);
     if (authenticated) {
       setTheme(state.isDark);
     }

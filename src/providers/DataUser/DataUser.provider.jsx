@@ -24,10 +24,6 @@ function UserReducer(state, action) {
         ...state,
         favoriteVideos: [...state.favoriteVideos, payload.video],
       };
-    case 'isFavoriteVideo':
-      return state.favoriteVideos.find(
-        (favoriteVideo) => favoriteVideo.id === payload.video.id
-      );
     case 'removeFavoriteVideo':
       return {
         ...state,
@@ -54,11 +50,8 @@ function UserProvider({ children }) {
       : {}),
   });
 
-  const isFavoriteVideo = () => (video) => {
-    dispatch({
-      type: 'isFavoriteVideo',
-      payload: { video },
-    });
+  const isFavoriteVideo = (video) => {
+    return state.favoriteVideos.find((favoriteVideo) => favoriteVideo.id === video.id);
   };
 
   const addFavoriteVideo = () => (video) => {
