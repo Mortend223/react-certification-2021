@@ -58,10 +58,10 @@ function Modal({ toggle, open }) {
                 title="close-button"
               />
             </CloseButton>
-            <section>
+            <section className="login">
               <h1>Welcome back!</h1>
               {error && (
-                <ErrorMessage>
+                <ErrorMessage class="error-msg">
                   <FontAwesomeIcon
                     icon={faTimesCircle}
                     size="1x"
@@ -71,7 +71,7 @@ function Modal({ toggle, open }) {
                   {error}
                 </ErrorMessage>
               )}
-              <div>
+              <div className="form-group">
                 <label htmlFor="username">
                   <strong>username </strong>
                   <input
@@ -82,7 +82,7 @@ function Modal({ toggle, open }) {
                   />
                 </label>
               </div>
-              <div>
+              <div className="form-group">
                 <label htmlFor="password">
                   <strong>password </strong>
                   <input

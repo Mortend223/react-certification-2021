@@ -38,11 +38,12 @@ export const LogoLink = styled.div`
   }
 `;
 
-export const MenuToggle = styled.div`
+export const MenuToggle = styled.a`
   display: block;
   width: 50px;
   padding: 5px;
   margin: 0px 20px;
+  cursor: pointer;
   svg {
     height: auto;
     max-width: 100%;

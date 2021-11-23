@@ -30,7 +30,7 @@ function VideoDetailPage() {
             loading={loading}
             title={item.title}
             url={item.id}
-            video={video}
+            video={item}
           />
         ))}
         <RelatedList>

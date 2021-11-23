@@ -1,13 +1,9 @@
 import styled from 'styled-components';
 
 export const ContentWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
   margin: 0 auto;
+  text-align: left;
   width: 90%;
-  row-gap: 10px;
-  column-gap: 2em;
   svg {
     color: white;
     cursor: pointer;
@@ -22,5 +18,7 @@ export const ContentWrapper = styled.div`
 `;
 
 export const LinkWrapper = styled.div`
+  display: inline-block;
   position: relative;
+  vertical-align: top;
 `;

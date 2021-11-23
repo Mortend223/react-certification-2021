@@ -31,16 +31,16 @@ function VideoFullComponent({ description, title, url, video }) {
                 icon={faStar}
                 size="2x"
                 style={{ color: 'yellow', cursor: 'pointer' }}
-                title="add-favorite"
-                onClick={() => addFavoriteVideo(video)}
+                title="remove-favorite"
+                onClick={() => removeFavoriteVideo(video)}
               />
             ) : (
               <FontAwesomeIcon
                 icon={faStar}
                 size="2x"
-                style={{ color: 'white', cursor: 'pointer' }}
-                title="remove-favorite"
-                onClick={() => removeFavoriteVideo(video)}
+                style={{ color: 'grey', cursor: 'pointer' }}
+                title="add-favorite"
+                onClick={() => addFavoriteVideo(video)}
               />
             ))}
         </h3>

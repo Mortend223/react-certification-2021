@@ -40,17 +40,16 @@ function ContentComponent() {
                 <FontAwesomeIcon
                   icon={faStar}
                   size="2x"
-                  // style={{ color: 'white', cursor: 'pointer' }}
-                  title="add-favorite"
-                  onClick={() => addFavoriteVideo(item)}
+                  style={{ color: 'yellow', cursor: 'pointer' }}
+                  title="remove-favorite"
+                  onClick={() => removeFavoriteVideo(item)}
                 />
               ) : (
                 <FontAwesomeIcon
                   icon={faStar}
                   size="2x"
-                  style={{ color: 'yellow', cursor: 'pointer' }}
-                  title="remove-favorite"
-                  onClick={() => removeFavoriteVideo(item)}
+                  title="add-favorite"
+                  onClick={() => addFavoriteVideo(item)}
                 />
               ))}
           </LinkWrapper>
