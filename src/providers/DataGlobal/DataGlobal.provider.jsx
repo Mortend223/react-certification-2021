@@ -66,7 +66,7 @@ function DataProvider({ children }) {
 function useData() {
   const context = useContext(DataContext);
   if (context === undefined) {
-    throw new Error('useCount must be used within a CountProvider');
+    throw new Error('useData must be used within a DataProvider');
   }
   return context;
 }

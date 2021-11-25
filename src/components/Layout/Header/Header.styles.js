@@ -8,7 +8,7 @@ export const HeaderWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
-  padding: 10px 20px;
+  padding: 10px 5%;
   width: 100%;
 
   p {
