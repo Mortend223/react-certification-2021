@@ -9,6 +9,7 @@ import {
   faHome,
   faSun,
   faMoon,
+  faRocket,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -72,7 +73,7 @@ function HeaderComponent() {
       </SearchBox>
       <ButtonToggle onClick={toggleTheme} name="darkMode">
         <FontAwesomeIcon
-          icon={isDark ? faMoon : faSun}
+          icon={isDark ? faSun : faMoon}
           size="6x"
           style={{ color: 'white' }}
           title="toggle-button"
@@ -90,6 +91,14 @@ function HeaderComponent() {
           />
         )}
       </LogoLink>
+      <MenuToggle href="/apod">
+        <FontAwesomeIcon
+          icon={faRocket}
+          size="2x"
+          style={{ color: 'white' }}
+          title="apod-button"
+        />
+      </MenuToggle>
       {authenticated && location.pathname === '/' ? (
         <MenuToggle href="/favorites">
           <FontAwesomeIcon
