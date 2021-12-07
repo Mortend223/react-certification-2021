@@ -62,7 +62,7 @@ function HeaderComponent() {
           value={searchTerm}
           onChange={handleSearchChanged}
           onKeyDown={handleKeyDown}
-          placeholder="Wizeline"
+          placeholder="Search..."
         />
         <FontAwesomeIcon
           icon={searchIcon}

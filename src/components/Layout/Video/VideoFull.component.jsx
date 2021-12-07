@@ -19,7 +19,7 @@ function VideoFullComponent({ description, title, url, video }) {
       <Iframe
         id="player"
         type="text/html"
-        src={`http://www.youtube.com/embed/${url}?enablejsapi=1&origin=http://example.com`}
+        src={`https://www.youtube.com/embed/${url}?enablejsapi=1&origin=http://example.com`}
         title={title}
       />
       <Description>
